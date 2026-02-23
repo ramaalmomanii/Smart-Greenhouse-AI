@@ -1,0 +1,72 @@
+ESP8266 NodeMCU WIRING DIAGRAM FOR SMART IRRIGATION SYSTEM
+===================================================
+
+NodeMCU ESP8266 (NodeMCU v1.0)
++---------------+
+|  A0       D0  |
+|  RSV      D1  |---> HC-SR04 Trigger
+|  RSV      D2  |---> HC-SR04 Echo
+|  SD3      D3  |
+|  SD2      D4  |---> DHT11 Data
+|  SD1      D5  |---> Relay Control
+|  CMD      D6  |
+|  SD0      D7  |
+|  CLK      D8  |
+|  3V3      D9  |
+|  3V3      D10 |
+|  EN       GND |---> GND
+|  RST      3V3 |---> 3.3V
+|  GND      TX  |
+|  VIN      RX  |
++---------------+
+
+COMPONENT CONNECTIONS:
+---------------------
+
+1. CAPACITIVE SOIL MOISTURE SENSOR:
+   - VCC --> 3.3V
+   - GND --> GND
+   - AOUT --> A0 (NodeMCU)
+
+2. DHT11 TEMPERATURE & HUMIDITY SENSOR:
+   - VCC --> 3.3V
+   - GND --> GND
+   - DATA --> D4 (NodeMCU)
+
+3. HC-SR04 ULTRASONIC DISTANCE SENSOR:
+   - VCC --> 5V (External)
+   - GND --> GND
+   - TRIG --> D6 (NodeMCU)
+   - ECHO --> D7 (NodeMCU) (with voltage divider: 2.2k and 1k resistor)
+
+4. 5V RELAY MODULE:
+   - VCC --> 5V (External)
+   - GND --> GND
+   - IN --> D5 (NodeMCU)
+   - COM --> 12V+ from power supply
+   - NO --> Pump positive terminal
+
+5. I2C LCD 1602 DISPLAY:
+   - VCC --> 5V (External)
+   - GND --> GND
+   - SDA --> GPIO4 (D2)
+   - SCL --> GPIO5 (D1)
+
+POWER CONNECTIONS:
+-----------------
+- NodeMCU powered via USB or 5V to VIN
+- 12V power supply for the water pump, connected through relay
+- Common ground between NodeMCU and all components
+
+NOTES:
+-----
+1. Use voltage divider for HC-SR04 ECHO pin (5V to 3.3V):
+   ECHO pin --> 2.2kΩ resistor --> D2 (NodeMCU)
+               |
+               └--> 1kΩ resistor --> GND
+
+2. Add 100μF capacitor across relay module's VCC and GND for stability
+
+3. For I2C LCD, ensure proper address (typically 0x27, check with I2C scanner)
+
+4. For safety, consider adding flyback diode across pump terminals to protect from voltage spikes 
